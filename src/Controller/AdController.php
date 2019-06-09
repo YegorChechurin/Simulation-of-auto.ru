@@ -2,31 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Ad;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AdController extends AbstractController
 {
-    /**
-     * @Route("/ad", name="ad")
-     */
-    public function index()
-    {
-        return $this->render('ad/index.html.twig', [
-            'controller_name' => 'AdController',
-        ]);
-    }
-}
-
-namespace App\Controller;
-
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-class AdsController extends AbstractController
-{
 	/**
-	 * @Route("/ads/all", name="all_ads")
+	 * @Route("/ads", name="all_ads")
 	 */
     public function show_all_ads() 
     {
@@ -39,5 +22,15 @@ class AdsController extends AbstractController
     public function show_spefic_ad($ad_id)
     {
     	//
+    }
+    
+    /**
+     * @Route("/ad", name="ad")
+     */
+    public function index()
+    {
+        return $this->render('ad/index.html.twig', [
+            'controller_name' => 'AdController',
+        ]);
     }
 }
