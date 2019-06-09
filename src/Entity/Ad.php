@@ -37,6 +37,26 @@ class Ad
      */
     private $car;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $car_producer;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $car_model;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $car_year;
+
+    public function getId(): ?int 
+    {
+        return $this->id;
+    }
+
     public function getOwnerName(): ?string
     {
         return $this->owner_name;
@@ -81,6 +101,42 @@ class Ad
     public function setCar(?Car $car): self
     {
         $this->car = $car;
+
+        return $this;
+    }
+
+    public function getCarProducer(): ?string
+    {
+        return $this->car_producer;
+    }
+
+    public function setCarProducer(string $car_producer): self
+    {
+        $this->car_producer = $car_producer;
+
+        return $this;
+    }
+
+    public function getCarModel(): ?string
+    {
+        return $this->car_model;
+    }
+
+    public function setCarModel(string $car_model): self
+    {
+        $this->car_model = $car_model;
+
+        return $this;
+    }
+
+    public function getCarYear(): ?int
+    {
+        return $this->car_year;
+    }
+
+    public function setCarYear(int $car_year): self
+    {
+        $this->car_year = $car_year;
 
         return $this;
     }

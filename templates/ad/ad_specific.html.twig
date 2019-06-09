@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ad {{ad.getId()}}{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>{{ad.getOwnerName()}} is selling {{ad.getCarProducer()}} {{ad.getCarModel()}} for {{ad.getPrice()}} rubles in {{ad.getOwnerCity()}}</h1>
+    <h2>Car specs</h2>
+    <div>Production year: <b>{{car.getYear()}}</b></div>
+    <div>Producer country: <b>{{car.getProducerCountry()}}</b></div>
+    <div>Body style: <b>{{car.getBodyStyle()}}</b></div>
+    <div>Number of doors: <b>{{car.getNumberOfDoors()}}</b></div>
+    <div>Maximum speed: <b>{{car.getMaxSpeed()}}</b></div>
+    <div>EngineVolume: <b>{{car.getEngineVolume()}}</b></div>
+    <div>Fuel consumption: <b>{{car.getFuelConsumption()}}</b></div>
+</div>
+{% endblock %}

@@ -1,26 +1,80 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>All ads</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js" integrity="sha384-u/bQvRA/1bobcXlcEYpsEdFVK/vJs3+T+nXLsBYJthmdBuavHvAW6UsmqO2Gd/F9" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+</head>
+<body>
+	<style>
+	    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+	    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+	</style>
 
-{% block title %}Hello AdController!{% endblock %}
+	<div class="example-wrapper">
+	    <h1>All the ads that we've got for you (<a href="https://127.0.0.1:8000/ads/new">post new ad</a>)</h1>
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	    <div class="custom-control custom-checkbox">
+		    <input type="checkbox" class="custom-control-input" id="Suzuki">
+		    <label class="custom-control-label" for="Suzuki">Suzuki</label>
+		</div>
 
-<div class="example-wrapper">
-    <h1>Hello! ✅</h1>
+		<div class="custom-control custom-checkbox">
+		    <input type="checkbox" class="custom-control-input" id="BMW">
+		    <label class="custom-control-label" for="BMW">BMW</label>
+		</div>
 
-    All the ads we've got for you:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/opt/autoru/src/Controller/AdController.php'|file_link(0) }}">src/Controller/AdController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/opt/autoru/templates/ad/index.html.twig'|file_link(0) }}">templates/ad/index.html.twig</a></code></li>
-    </ul>
+	    <ul id="ads_list">
+	    	{% for ad in ads %}
+	            <li id="ad{{ad.getId()}}"><a href="https://127.0.0.1:8000/ads/{{ad.getId()}}">{{ad.getOwnerName()}} is selling {{ad.getCarProducer()}} {{ad.getCarModel()}} for {{ad.getPrice()}} rubles in {{ad.getOwnerCity()}}</a></li>
+	        {% endfor %}
+	    </ul>
+	</div>
+</body>
+<script type="text/javascript">
+	var ads = [];
+	{% for ad in ads %}
+	    ads.push(
+	    	{
+	    		id:'{{ad.getId()}}',
+	    		owner_name:'{{ad.getOwnerName()}}',
+	    		producer:'{{ad.getCarProducer()}}',
+	    		model:'{{ad.getCarModel()}}',
+	    		price:'{{ad.getPrice()}}',
+	    		owner_city:'{{ad.getOwnerCity()}}'
+	    	}
+	    );
+    {% endfor %}
 
-    <ul>
-    	{% for ad in ads %}
-            <li><a href="#">{{ ad.price }}</a></li>
-        {% endfor %}
-    </ul>
-</div>
-{% endblock %}
+    var IDs;
+
+	$("#Suzuki").click(function(){
+		if (document.getElementById("Suzuki").checked) {
+			$.get("https://127.0.0.1:8000/ads/producer/Suzuki", 
+	            function(data, status){
+	                if (status=='success' && data) {
+	                	IDs = JSON.parse(data);
+	                	ads.forEach(function(ad){
+	                		if (!IDs.includes(parseInt(ad.id))) {
+	                			$('#ad'+ad.id).remove();
+	                		}
+	                	});
+	                }
+	            }
+	        );
+		} else {
+			$("#ads_list").html('');
+			ads.forEach(function(ad){
+				var $li = '<li id="ad'+ad.id+'"><a href="https://127.0.0.1:8000/ads/'+ad.id+'">'+ad.owner_name+' is selling '+ad.producer+' '+ad.model+' for '+ad.price+' rubles in '+ad.owner_city+'</a></li>';
+				$("#ads_list").append($li);
+			});
+		} 
+	});
+</script>
+</html>>
+
+
+

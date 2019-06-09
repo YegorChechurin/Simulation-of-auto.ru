@@ -26,6 +26,9 @@ class AdFixtures extends Fixture implements DependentFixtureInterface
             $ad->setOwnerCity('Moscow');
             $ad->setPrice(mt_rand(500000,2000000));
             $ad->setCar($cars[$i]);
+            $ad->setCarProducer($cars[$i]->getProducer());
+            $ad->setCarModel($cars[$i]->getModel());
+            $ad->setCarYear($cars[$i]->getYear());
             $manager->persist($ad);
         }
         
