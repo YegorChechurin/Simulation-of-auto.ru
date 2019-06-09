@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Ad;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 class AdController extends AbstractController
 {
@@ -13,7 +14,10 @@ class AdController extends AbstractController
 	 */
     public function show_all_ads() 
     {
-        return $this->render('ads/ads.html.twig');
+        $ad_repo = $this->getDoctrine()->getRepository(Ad::class);
+        $all_ads = $ad_repo->findAll();
+        //return new Response($all_ads[0]->getCar()->getProducerCountry());
+        return $this->render('ad/ads_all.html.twig',['ads'=>$all_ads]);
     }
 
     /**

@@ -17,41 +17,72 @@ class Ad
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255)
      */
-    private $author_id;
+    private $owner_name;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $author_name;
+    private $owner_city;
 
-    public function getId(): ?int
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $price;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Car", inversedBy="ads")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $car;
+
+    public function getOwnerName(): ?string
     {
-        return $this->id;
+        return $this->owner_name;
     }
 
-    public function getAuthorId(): ?int
+    public function setOwnerName(string $owner_name): self
     {
-        return $this->author_id;
-    }
-
-    public function setAuthorId(int $author_id): self
-    {
-        $this->author_id = $author_id;
+        $this->owner_name = $owner_name;
 
         return $this;
     }
 
-    public function getAuthorName(): ?string
+    public function getOwnerCity(): ?string
     {
-        return $this->author_name;
+        return $this->owner_city;
     }
 
-    public function setAuthorName(string $author_name): self
+    public function setOwnerCity(string $owner_city): self
     {
-        $this->author_name = $author_name;
+        $this->owner_city = $owner_city;
 
         return $this;
     }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getCar(): ?Car
+    {
+        return $this->car;
+    }
+
+    public function setCar(?Car $car): self
+    {
+        $this->car = $car;
+
+        return $this;
+    }
+    
 }

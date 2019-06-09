@@ -65,6 +65,8 @@ class CarFixtures extends Fixture
         	$car->setEngineVolume($engine_volumes[$i]);
         	$car->setFuelConsumption($fuel_consumption[$i]);
         	$car->setProducerCountry($producer_countries[$i]);
+            $ref_number = $i+1;
+            $this->addReference('Car'.$ref_number, $car);
         	$manager->persist($car);
         }
 
