@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Ad;
+use App\Form\AdType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -72,17 +73,7 @@ class AdController extends AbstractController
      */
     public function post_new_ad(Request $request) 
     {
-        $ad = new Ad();
-
-        $form = $this->createFormBuilder($ad)
-            ->add('owner_name', TextType::class)
-            ->add('owner_city', TextType::class)
-            ->add('price', TextType::class)
-            ->add('car_producer', TextType::class)
-            ->add('car_model', TextType::class)
-            ->add('car_year', TextType::class)
-            ->add('Post', SubmitType::class, ['label' => 'Post Ad'])
-            ->getForm();
+        $form = $this->createForm(AdType::class);
 
         $form->handleRequest($request);
 
