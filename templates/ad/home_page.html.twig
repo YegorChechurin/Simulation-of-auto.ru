@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js" integrity="sha384-u/bQvRA/1bobcXlcEYpsEdFVK/vJs3+T+nXLsBYJthmdBuavHvAW6UsmqO2Gd/F9" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+</head>
+<body>
+	<style>
+	    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+	    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+	</style>
+
+	<div class="example-wrapper">
+	    <h1><a href="https://127.0.0.1:8000/ads/new">Post new ad</a></h1>
+
+	    <h1><a href="https://127.0.0.1:8000/ads">Show all ads</a></h1>
+
+	    <h1>Show specific ads</h1>
+
+	    <div id="filter">
+	    	<select id="producer">
+	    		<option>All</option>
+	    		{% for producer in producers %}
+	    			<option>{{producer}}</option>
+	        	{% endfor %}
+			</select>
+			<select id="country">
+				<option>All</option>
+	    		{% for country in countries %}
+	    			<option>{{country}}</option>
+	        	{% endfor %}
+			</select>
+			<select id="year">
+				<option>All</option>
+	    		{% for year in years %}
+	    			<option>{{year}}</option>
+	        	{% endfor %}
+			</select>
+	    	<button id="search">Search</button>
+	    </div>
+
+	    <div id="container">
+	    	<ul id="ads_list"></ul>
+	    </div>
+	</div>
+</body>
+<script type="text/javascript">
+	var ads;
+	$('#search').click(function(){
+		/*alert('yes');
+		var y = $('#producer').val();
+		alert(y);
+		y = $('#country').val();
+		alert(y);
+		y = $('#year').val();
+		alert(y);*/
+		var producer = $('#producer').val();
+		var country = $('#country').val();
+		var year = $('#year').val();
+		$.get("https://127.0.0.1:8000/ads/ajax?producer="+producer+"&country="+country+"&year="+year, 
+            function(data, status){
+                if (status=='success' && data) {
+                	ads = JSON.parse(data);
+                	for (var i = 0; i < ads.length; i++) {
+                		var id = ads[i].id;
+                		var name = ads[i].owner_name;
+                		var producer = ads[i].car_producer;
+                		var model = ads[i].car_model;
+                		var price = ads[i].price;
+                		var city = ads[i].owner_city;
+                		var $li = '<li id="ad'+id+'"><a href="https://127.0.0.1:8000/ads/'+id+'">'+name+' is selling '+producer+' '+model+' for '+price+' rubles in '+city+'</a></li>';
+                		$('#ads_list').html('');
+                		$('#ads_list').append($li);
+                	}
+                }
+            }
+        );
+	});
+</script>
+</html>>
+
+
+

@@ -19,6 +19,65 @@ class AdRepository extends ServiceEntityRepository
         parent::__construct($registry, Ad::class);
     }
 
+    public function findAllProducers() : array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'SELECT car_producer FROM ad GROUP BY car_producer';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+
+        foreach ($results as $result) {
+            $producers[] = $result['car_producer'];
+        }
+
+        return $producers;
+    }
+
+    public function findAllCountries() : array 
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'SELECT car.producer_country FROM car INNER JOIN ad ON ad.car_id=car.id GROUP BY car.producer_country';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+
+        foreach ($results as $result) {
+            $countries[] = $result['producer_country'];
+        }
+
+        return $countries;
+    }
+
+    public function findYearRange() : array 
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'SELECT MIN(car_year) FROM ad';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        $min_year = $result['MIN(car_year)'];
+
+        $sql = 'SELECT MAX(car_year) FROM ad';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        $max_year = $result['MAX(car_year)'];
+
+        $year = $min_year;
+        while ($year<=$max_year) {
+            $years[] = $year;
+            $year++;
+        }
+
+        return $years;
+    }
+
     // /**
     //  * @return Ad[] Returns an array of Ad objects
     //  */

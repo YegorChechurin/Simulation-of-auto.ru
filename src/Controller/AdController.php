@@ -12,6 +12,24 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AdController extends AbstractController
 {
+    /**
+     * @Route("/", name="home_page")
+     */
+    public function show_home_page() 
+    {
+        $ad_repo = $this->getDoctrine()->getRepository(Ad::class);
+        $producers = $ad_repo->findAllProducers();
+        $countries = $ad_repo->findAllCountries();
+        $years = $ad_repo->findYearRange();
+        return $this->render('ad/home_page.html.twig',
+            [
+                'producers'=>$producers,
+                'countries'=>$countries,
+                'years'=>$years
+            ]
+         );
+    }
+
 	/**
 	 * @Route("/ads", name="all_ads")
 	 */
@@ -34,16 +52,18 @@ class AdController extends AbstractController
     }
     
     /**
-     * @Route("/ads/producer/{producer}")
+     * @Route("/ads/ajax{query_string}", name="ajax_service", requirements={"query_string"="(\?.*)?"})
      */
-    public function fetch_ads_with_specific_producers($producer)
+    public function fetch_specific_ads()
     {
+        $producer = $_GET['producer'];
+        $country = $_GET['country'];
+        $year = $_GET['year'];
         $ad_repo = $this->getDoctrine()->getRepository(Ad::class);
-        $ad_objects = $ad_repo->findBy(['car_producer'=>$producer]);
-        foreach ($ad_objects as $ad) {
-            $IDs[] = $ad->getId();
+        if ($country=='All') {
+            $ads = $ad_repo->findBy(['car_producer'=>$producer,'car_year'=>$year]);
         }
-        return new Response(json_encode($IDs));
+        return new Response(json_encode($ads));
     }
 
     /**
