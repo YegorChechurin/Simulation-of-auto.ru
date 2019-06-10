@@ -97,13 +97,13 @@ class AdController extends AbstractController
      */
     public function new_ad_success(MailerInterface $mailer)
     {
-        $email = (new Email())
+        /*$email = (new Email())
             ->from('yegor.chechurin@gmail.com')
             ->to('olga.ogurtsova@simple-solution.biz ')
             ->subject('Ad submission')
             ->text('New add has been submitted');
 
-        $mailer->send($email);
+        $mailer->send($email);*/
 
         return new Response('Congrats, your ad has been posted');
     }
