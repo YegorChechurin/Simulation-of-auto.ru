@@ -9,14 +9,18 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>{{ad.getOwnerName()}} is selling {{ad.getCarProducer()}} {{ad.getCarModel()}} for {{ad.getPrice()}} rubles in {{ad.getOwnerCity()}}</h1>
-    <h2>Car specs</h2>
-    <div>Production year: <b>{{car.getYear()}}</b></div>
-    <div>Producer country: <b>{{car.getProducerCountry()}}</b></div>
-    <div>Body style: <b>{{car.getBodyStyle()}}</b></div>
-    <div>Number of doors: <b>{{car.getNumberOfDoors()}}</b></div>
-    <div>Maximum speed: <b>{{car.getMaxSpeed()}}</b></div>
-    <div>EngineVolume: <b>{{car.getEngineVolume()}}</b></div>
-    <div>Fuel consumption: <b>{{car.getFuelConsumption()}}</b></div>
+    <h1>{{ad.getOwnerName()}} is selling {{ad.getCarProducer()}} {{ad.getCarModel()}} of year {{ad.getCarYear()}} for {{ad.getPrice()}} rubles in {{ad.getOwnerCity()}}</h1>
+    {% if car %}
+        <h2>Car specs</h2>
+        <div>Production year: <b>{{car.getYear()}}</b></div>
+        <div>Producer country: <b>{{car.getProducerCountry()}}</b></div>
+        <div>Body style: <b>{{car.getBodyStyle()}}</b></div>
+        <div>Number of doors: <b>{{car.getNumberOfDoors()}}</b></div>
+        <div>Maximum speed: <b>{{car.getMaxSpeed()}}</b></div>
+        <div>EngineVolume: <b>{{car.getEngineVolume()}}</b></div>
+        <div>Fuel consumption: <b>{{car.getFuelConsumption()}}</b></div>
+    {% else %}
+        <div><b>Unfortunately car specs are not available</b></div>
+    {% endif %}
 </div>
 {% endblock %}

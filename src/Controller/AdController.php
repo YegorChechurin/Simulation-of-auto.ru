@@ -60,30 +60,51 @@ class AdController extends AbstractController
         $country = $_GET['country'];
         $year = $_GET['year'];
         $ad_repo = $this->getDoctrine()->getRepository(Ad::class);
-        if ($country=='All') {
-            $ads = $ad_repo->findBy(['car_producer'=>$producer,'car_year'=>$year]);
-        }
+        $ads = $ad_repo->findSpecificAds($country,$producer,$year);
+        $response = new Response();
+        $response->setContent(json_encode($ads));
+        $response->headers->set('Content-Type', 'application/json');
         return new Response(json_encode($ads));
     }
 
     /**
      * @Route("ads/new")
      */
-    public function post_new_ad() 
+    public function post_new_ad(Request $request) 
     {
-        $form = $this->createFormBuilder()
-            ->add('Your_name', TextType::class)
-            ->add('Your_city', TextType::class)
-            ->add('Car_price', TextType::class)
-            ->add('Car_producer', TextType::class)
-            ->add('Car_model', TextType::class)
-            ->add('Car_year', TextType::class)
+        $ad = new Ad();
+
+        $form = $this->createFormBuilder($ad)
+            ->add('owner_name', TextType::class)
+            ->add('owner_city', TextType::class)
+            ->add('price', TextType::class)
+            ->add('car_producer', TextType::class)
+            ->add('car_model', TextType::class)
+            ->add('car_year', TextType::class)
             ->add('Post', SubmitType::class, ['label' => 'Post Ad'])
             ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $ad = $form->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($ad);
+            $entityManager->flush();
+            return $this->redirectToRoute('submission_success');
+        }
 
         return $this->render('ad/new_ad.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("ads/new/success",name="submission_success")
+     */
+    public function new_ad_success()
+    {
+        return new Response('Congrats, your ad has been posted');
     }
 
 }

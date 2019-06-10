@@ -18,7 +18,7 @@
 	    <h1>All the ads we've got for you</h1>
 	    <ul id="ads_list">
 	    	{% for ad in ads %}
-	            <li id="ad{{ad.getId()}}"><a href="https://127.0.0.1:8000/ads/{{ad.getId()}}">{{ad.getOwnerName()}} is selling {{ad.getCarProducer()}} {{ad.getCarModel()}} for {{ad.getPrice()}} rubles in {{ad.getOwnerCity()}}</a></li>
+	            <li id="ad{{ad.getId()}}"><a href="https://127.0.0.1:8000/ads/{{ad.getId()}}">{{ad.getOwnerName()}} is selling {{ad.getCarProducer()}} {{ad.getCarModel()}} of year {{ad.getCarYear()}} for {{ad.getPrice()}} rubles in {{ad.getOwnerCity()}}</a></li>
 	        {% endfor %}
 	    </ul>
 	</div>

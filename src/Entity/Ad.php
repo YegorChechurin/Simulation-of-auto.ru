@@ -33,7 +33,7 @@ class Ad
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Car", inversedBy="ads")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $car;
 

@@ -20,28 +20,34 @@
 	    <h1><a href="https://127.0.0.1:8000/ads">Show all ads</a></h1>
 
 	    <h1>Show specific ads</h1>
-
-	    <div id="filter">
+	    <div>
+	    	Filter by car producer
 	    	<select id="producer">
 	    		<option>All</option>
 	    		{% for producer in producers %}
 	    			<option>{{producer}}</option>
 	        	{% endfor %}
 			</select>
-			<select id="country">
+	    </div>
+	    <div>
+	    	Filter by producer country
+	    	<select id="country">
 				<option>All</option>
 	    		{% for country in countries %}
 	    			<option>{{country}}</option>
 	        	{% endfor %}
 			</select>
-			<select id="year">
+	    </div>
+	    <div>
+	    	Not older than
+	    	<select id="year">
 				<option>All</option>
 	    		{% for year in years %}
 	    			<option>{{year}}</option>
 	        	{% endfor %}
 			</select>
-	    	<button id="search">Search</button>
 	    </div>
+	    <button id="search">Search</button>
 
 	    <div id="container">
 	    	<ul id="ads_list"></ul>
@@ -65,6 +71,7 @@
             function(data, status){
                 if (status=='success' && data) {
                 	ads = JSON.parse(data);
+                	$('#ads_list').html('');
                 	for (var i = 0; i < ads.length; i++) {
                 		var id = ads[i].id;
                 		var name = ads[i].owner_name;
@@ -72,8 +79,8 @@
                 		var model = ads[i].car_model;
                 		var price = ads[i].price;
                 		var city = ads[i].owner_city;
-                		var $li = '<li id="ad'+id+'"><a href="https://127.0.0.1:8000/ads/'+id+'">'+name+' is selling '+producer+' '+model+' for '+price+' rubles in '+city+'</a></li>';
-                		$('#ads_list').html('');
+                		var year = ads[i].car_year;
+                		var $li = '<li id="ad'+id+'"><a href="https://127.0.0.1:8000/ads/'+id+'">'+name+' is selling '+producer+' '+model+' of year '+year+' for '+price+' rubles in '+city+'</a></li>';
                 		$('#ads_list').append($li);
                 	}
                 }

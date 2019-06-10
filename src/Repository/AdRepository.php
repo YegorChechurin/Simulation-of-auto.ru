@@ -78,6 +78,39 @@ class AdRepository extends ServiceEntityRepository
         return $years;
     }
 
+    public function findSpecificAds($country,$producer,$year) : array 
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        if ($country=='All') {
+            if ($producer=='All' && $year!='All') {
+                $sql = "SELECT * FROM ad WHERE car_year>='$year'";
+            } elseif ($producer!='All' && $year=='All') {
+                $sql = "SELECT * FROM ad WHERE car_producer='$producer'";
+            } elseif ($producer=='All' && $year=='All') {
+                $sql = "SELECT * FROM ad";
+            } else if ($producer!='All' && $year!='All') {
+                $sql = "SELECT * FROM ad WHERE car_producer='$producer' AND car_year>='$year'";
+            }
+        } else {
+            if ($producer=='All' && $year!='All') {
+                $sql = "SELECT ad.* FROM ad INNER JOIN car ON ad.car_id=car.id WHERE car.producer_country='$country' AND car.year>='$year'";
+            } elseif ($producer!='All' && $year=='All') {
+                $sql = "SELECT ad.* FROM ad INNER JOIN car ON ad.car_id=car.id WHERE car.producer_country='$country' AND car.producer='$producer'";
+            } elseif ($producer=='All' && $year=='All') {
+                $sql = "SELECT ad.* FROM ad INNER JOIN car ON ad.car_id=car.id WHERE car.producer_country='$country'";
+            } else if ($producer!='All' && $year!='All') {
+                $sql = "SELECT ad.* FROM ad INNER JOIN car ON ad.car_id=car.id WHERE car.producer_country='$country' AND car.year>='$year' AND car.producer='$producer'";
+            }
+        }
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $ads = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $ads;
+    }
+
     // /**
     //  * @return Ad[] Returns an array of Ad objects
     //  */
