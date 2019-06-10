@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 class AdController extends AbstractController
 {
@@ -93,8 +95,16 @@ class AdController extends AbstractController
     /**
      * @Route("ads/new/success",name="submission_success")
      */
-    public function new_ad_success()
+    public function new_ad_success(MailerInterface $mailer)
     {
+        $email = (new Email())
+            ->from('yegor.chechurin@gmail.com')
+            ->to('olga.ogurtsova@simple-solution.biz ')
+            ->subject('Ad submission')
+            ->text('New add has been submitted');
+
+        $mailer->send($email);
+
         return new Response('Congrats, your ad has been posted');
     }
 

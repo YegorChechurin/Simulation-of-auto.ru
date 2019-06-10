@@ -212,6 +212,15 @@
             "src/Kernel.php"
         ]
     },
+    "symfony/google-mailer": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "7b6d5252ce12eb93ebb0f6d4e7e285c6d60461ef"
+        }
+    },
     "symfony/http-foundation": {
         "version": "v4.3.1"
     },
@@ -223,6 +232,18 @@
     },
     "symfony/intl": {
         "version": "v4.3.1"
+    },
+    "symfony/mailer": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "6e5921f710bec05533f664e0b9a3d838545edd82"
+        },
+        "files": [
+            "config/packages/mailer.yaml"
+        ]
     },
     "symfony/maker-bundle": {
         "version": "1.0",
